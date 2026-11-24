@@ -1,6 +1,10 @@
+import Constellation from "@/components/Constellation";
+import Cursor from "@/components/Cursor";
 import Icon from "@/components/Icon";
+import Intro from "@/components/Intro";
 import MotionLayer from "@/components/MotionLayer";
 import Reveal from "@/components/Reveal";
+import ScrollText from "@/components/ScrollText";
 import SiteHeader from "@/components/SiteHeader";
 import {
   about,
@@ -16,6 +20,8 @@ import {
 export default function Home() {
   return (
     <>
+      <Intro />
+      <Cursor />
       <MotionLayer />
       <SiteHeader />
       <main id="top">
@@ -23,6 +29,7 @@ export default function Home() {
         <header className="hero">
           <div className="hero-aura" aria-hidden="true" />
           <div className="grid-lines" aria-hidden="true" />
+          <Constellation />
           <div className="noise" aria-hidden="true" />
 
           <div className="wrap hero-in">
@@ -30,9 +37,15 @@ export default function Home() {
               <p className="chip reveal">
                 <Icon name="pin" size={15} /> {person.location}
               </p>
-              <h1 className="serif reveal d1">
-                <span className="hero-first">{person.first}</span>
-                <span className="hero-last">{person.last}</span>
+              <h1 className="serif" aria-label={person.name}>
+                <span className="hero-first" aria-hidden="true">
+                  {person.first.split("").map((letter, index) => (
+                    <span className="char" key={index} style={{ animationDelay: `${0.12 + index * 0.045}s` }}>
+                      {letter}
+                    </span>
+                  ))}
+                </span>
+                <span className="hero-last" aria-hidden="true">{person.last}</span>
               </h1>
               <div className="roles reveal d2">
                 <p className="role">{person.role}</p>
@@ -111,7 +124,7 @@ export default function Home() {
         <section id="about" className="wrap section about">
           <Reveal className="about-lead">
             <p className="eyebrow">About</p>
-            <blockquote className="serif">{about.quote}</blockquote>
+            <ScrollText className="serif" text={about.quote} />
           </Reveal>
           <Reveal className="about-body" delay={120}>
             {about.paragraphs.map((paragraph) => (
@@ -144,7 +157,7 @@ export default function Home() {
             </Reveal>
             <div className="focus-grid">
               {expertise.map((item, index) => (
-                <Reveal key={item.title} delay={index * 90} className="fill">
+                <Reveal key={item.title} delay={index * 90} className="fill" variant="flip">
                   <article className="focus-card" data-tilt>
                     <span className="focus-num serif">{String(index + 1).padStart(2, "0")}</span>
                     <span className="focus-icon"><Icon name={item.icon} size={22} /></span>
@@ -173,7 +186,7 @@ export default function Home() {
             </Reveal>
             <div className="appt-grid">
               {appointments.map((item, index) => (
-                <Reveal key={item.role + item.org} delay={index * 110} className="fill">
+                <Reveal key={item.role + item.org} delay={index * 110} className="fill" variant="zoom">
                   <article className="appt" data-tilt>
                     <div className="appt-top">
                       <span className="appt-logo-wrap">
@@ -257,7 +270,7 @@ export default function Home() {
             </Reveal>
             <div className="cred-grid">
               {credentials.map((group, index) => (
-                <Reveal key={group.title} delay={index * 100} className="fill">
+                <Reveal key={group.title} delay={index * 100} className="fill" variant="flip">
                   <article className="cred">
                     <span className="cred-watermark" aria-hidden="true">
                       <Icon name={group.icon} size={132} />
@@ -300,7 +313,10 @@ export default function Home() {
           <div className="wrap contact-in">
             <Reveal>
               <p className="eyebrow">Get in touch</p>
-              <h2 className="serif">Let&rsquo;s connect.</h2>
+              <h2 className="serif contact-title">
+                <span className="contact-glow" aria-hidden="true">Let&rsquo;s connect.</span>
+                Let&rsquo;s connect.
+              </h2>
               <p>The best way to reach Prasantha is through LinkedIn.</p>
               <div className="contact-actions">
                 <a className="btn gold" href={person.linkedin} target="_blank" rel="noopener noreferrer">

@@ -6,9 +6,11 @@ type RevealProps = {
   children: ReactNode;
   className?: string;
   delay?: number;
+  /** Entrance style: default rise, 3D flip-up, zoom-in from blur, or slide from a side. */
+  variant?: "up" | "flip" | "zoom" | "left" | "right";
 };
 
-export default function Reveal({ children, className = "", delay = 0 }: RevealProps) {
+export default function Reveal({ children, className = "", delay = 0, variant = "up" }: RevealProps) {
   const ref = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -39,7 +41,7 @@ export default function Reveal({ children, className = "", delay = 0 }: RevealPr
   return (
     <div
       ref={ref}
-      className={`reveal-up ${className}`.trim()}
+      className={`reveal-up${variant !== "up" ? ` rv-${variant}` : ""} ${className}`.trim()}
       style={delay ? { transitionDelay: `${delay}ms` } : undefined}
     >
       {children}

@@ -170,6 +170,45 @@ export default function MotionLayer() {
       });
     }
 
+    // Hero recedes into depth as the page scrolls away from it.
+    if (hero && !reduce) {
+      let frame = 0;
+      const update = () => {
+        frame = 0;
+        const h = hero.offsetHeight || 1;
+        const p = Math.min(Math.max(window.scrollY / h, 0), 1);
+        hero.style.setProperty("--sp", p.toFixed(4));
+      };
+      const onScroll = () => {
+        if (!frame) frame = window.requestAnimationFrame(update);
+      };
+      update();
+      window.addEventListener("scroll", onScroll, { passive: true });
+      cleanups.push(() => {
+        window.removeEventListener("scroll", onScroll);
+        if (frame) window.cancelAnimationFrame(frame);
+      });
+    }
+
+    // Ink ripple bursts from the click point on buttons.
+    if (!reduce) {
+      const onDown = (event: PointerEvent) => {
+        const el = (event.target as Element | null)?.closest?.<HTMLElement>(".btn, .pill");
+        if (!el) return;
+        const rect = el.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height) * 2.2;
+        const ripple = document.createElement("span");
+        ripple.className = "ripple";
+        ripple.style.width = ripple.style.height = `${size}px`;
+        ripple.style.left = `${event.clientX - rect.left - size / 2}px`;
+        ripple.style.top = `${event.clientY - rect.top - size / 2}px`;
+        el.appendChild(ripple);
+        ripple.addEventListener("animationend", () => ripple.remove(), { once: true });
+      };
+      document.addEventListener("pointerdown", onDown);
+      cleanups.push(() => document.removeEventListener("pointerdown", onDown));
+    }
+
     const counters = Array.from(document.querySelectorAll<HTMLElement>("[data-count]"));
     if (counters.length) {
       if (reduce || typeof IntersectionObserver === "undefined") {
@@ -203,8 +242,11 @@ export default function MotionLayer() {
           { threshold: 0.35 }
         );
 
-        counters.forEach((el) => observer.observe(el));
+        // Hold the count-up until the intro curtain has opened.
+        const wait = document.documentElement.classList.contains("is-intro") ? 1900 : 0;
+        const timer = window.setTimeout(() => counters.forEach((el) => observer.observe(el)), wait);
         cleanups.push(() => {
+          window.clearTimeout(timer);
           observer.disconnect();
           frames.forEach((id) => window.cancelAnimationFrame(id));
         });

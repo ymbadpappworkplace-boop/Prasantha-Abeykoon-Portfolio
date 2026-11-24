@@ -125,8 +125,18 @@ export const credentials: {
     icon: "book",
     title: "Education",
     items: [
-      { name: "MBA", detail: "Postgraduate Institute of Management" },
-      { name: "Undergraduate degree", detail: "University of Sri Jayewardenepura" },
+      {
+        name: "MBA",
+        detail: "Postgraduate Institute of Management",
+        logo: "/logos/pim-mark.svg",
+        logoAlt: "PIM emblem",
+      },
+      {
+        name: "Undergraduate degree",
+        detail: "University of Sri Jayewardenepura",
+        logo: "/logos/usj-mark.png",
+        logoAlt: "University of Sri Jayewardenepura crest",
+      },
     ],
   },
   {
@@ -151,10 +161,10 @@ export const credentials: {
     icon: "building",
     title: "Boards",
     items: [
-      { name: "Director, current", detail: "Renuka Agro Exports Ltd" },
-      { name: "Director, former", detail: "Renuka Holdings PLC" },
-      { name: "Director, former", detail: "Renuka Agri Foods PLC" },
-      { name: "Director, former", detail: "Renuka Foods PLC" },
+      { name: "Director, current", detail: "Renuka Agro Exports Ltd", logo: "/logos/renuka-logo.webp", logoAlt: "Renuka Group logo" },
+      { name: "Director, former", detail: "Renuka Holdings PLC", logo: "/logos/renuka-logo.webp", logoAlt: "Renuka Group logo" },
+      { name: "Director, former", detail: "Renuka Agri Foods PLC", logo: "/logos/renuka-logo.webp", logoAlt: "Renuka Group logo" },
+      { name: "Director, former", detail: "Renuka Foods PLC", logo: "/logos/renuka-logo.webp", logoAlt: "Renuka Group logo" },
     ],
   },
 ];
