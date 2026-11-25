@@ -232,7 +232,7 @@ export default function Home() {
                 <h2 className="serif h2">Nearly three decades in the making.</h2>
               </div>
               <p className="section-lede">
-                From a first role at C&amp;L to chairmanship, board service and an honorary office at the YMBA.
+                From a first role at Coopers &amp; Lybrand to chairmanship, international advisory work and an honorary office at the YMBA.
               </p>
             </div>
           </Reveal>
